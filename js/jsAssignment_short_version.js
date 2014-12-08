@@ -1,6 +1,6 @@
 // =============================================== GENERAL SETTINGS ===============================================
 
-    // ===== VARIABLES AND ARRAYS STATEMENTS =====
+    // ===== VARIABLES, ARRAYS AND OBJECTS STATEMENTS =====
 
         /* Creating undefined variables */
 
@@ -28,22 +28,23 @@
         var player2GuessedNumbers = [];
 
 
-        /* Creating an array to store message strings intended to the players */
+        /* Creating an object to store message strings intended to the players */
 
-        var messageToPlayer = [];
-        messageToPlayer[0] = "WELCOME TO THE NUMBER-GUESSING GAME! Please enter your name.";
-        messageToPlayer[1] = ": Choose a number from 1 to 100, enter it here, and keep it for yourself.";
-        messageToPlayer[2] = "GREAT, GOT IT! Now click okay and let the second player try to guess which number you chose.";
-        messageToPlayer[3] = ": Guess WHAT NUMBER the first player chose! Enter a number from 1 to 100 here.";
-        messageToPlayer[4] = "GREAT, GOT IT! Now click okay to check if your guess matches the number chosen by the first player.";
-        messageToPlayer[5] = "CONGRATULATIONS! YOUR GUESS WAS RIGHT AND YOU WON THE GAME!";
-        messageToPlayer[6] = "Your guess is LOWER than the number chosen by the first player. You have ";
-        messageToPlayer[7] = "Your guess is HIGHER than the number chosen by the first player. You have ";
-        messageToPlayer[8] = " TURN(S) LEFT after this turn. LIST OF THE NUMBERS YOU TRIED: ";
-        messageToPlayer[9] = " Click okay to try again.";
-        messageToPlayer[10] = "ERROR! The number you chose is NOT between 1 and 100! Click okay to enter a number BETWEEN 1 AND 100.";
-        messageToPlayer[11] = "GAME OVER! THANK YOU FOR YOUR PARTICIPATION! \nHERE'S THE LIST OF THE NUMBERS YOU TRIED: ";
-        messageToPlayer[12] = " \nFIRST PLAYER'S NUMBER WAS: ";
+        var messagesToPlayer = {
+        "welcomeEnterName": "WELCOME TO THE NUMBER-GUESSING GAME! Please enter your name.",
+        "chooseANumber": ": Choose a number from 1 to 100, enter it here, and keep it for yourself.",
+        "secondPlayerTurn": "GREAT, GOT IT! Now click okay and let the second player try to guess which number you chose.",
+        "guessWhatNumber": ": Guess WHAT NUMBER the first player chose! Enter a number from 1 to 100 here.",
+        "numbersComparison": "GREAT, GOT IT! Now click okay to check if your guess matches the number chosen by the first player.",
+        "congratulationsWinner": "CONGRATULATIONS! YOUR GUESS WAS RIGHT AND YOU WON THE GAME!",
+        "guessIsLower": "Your guess is LOWER than the number chosen by the first player. You have ",
+        "guessIsHigher": "Your guess is HIGHER than the number chosen by the first player. You have ",
+        "turnsLeft": " TURN(S) LEFT after this turn. LIST OF THE NUMBERS YOU TRIED: ",
+        "tryAgain": " Click okay to try again.",
+        "errorNumberNotInRange": "ERROR! The number you chose is NOT between 1 and 100! Click okay to enter a number BETWEEN 1 AND 100.",
+        "gameOverThankYou": "GAME OVER! THANK YOU FOR YOUR PARTICIPATION! \nHERE'S THE LIST OF THE NUMBERS YOU TRIED: ",
+        "firstPlayerNumberWas": " \nFIRST PLAYER'S NUMBER WAS: "
+        };
 
 
     // ===== REUSABLE CODE - FUNCTIONS STATEMENTS =====
@@ -65,7 +66,7 @@
 
             /* Prompting 2nd player to choose a number from 1 to 100, and convert that string to a number. */
 
-            playerNumberInput = +prompt (playerID[1] + messageToPlayer[3]);
+            playerNumberInput = +prompt (playerID[1] + messagesToPlayer["guessWhatNumber"]);
 
 
             // ===== TESTING WHETHER 2ND PLAYER'S INPUT NUMBER IS IN RANGE =====
@@ -79,17 +80,16 @@
              * enters a number in range */
 
             while (player2NumberOk !== true) {
-                alert (messageToPlayer[10]);
-                playerNumberInput = +prompt (playerID[1] + messageToPlayer[3]);
+                alert (messagesToPlayer["errorNumberNotInRange"]);
+                playerNumberInput = +prompt (playerID[1] + messagesToPlayer["guessWhatNumber"]);
                 player2NumberOk = isNumberInRange(1, 100, playerNumberInput);
             }
-
 
             /* If 2nd player's number input is in range, the player receives a confirmation that the number he/she just chose has
              * been stored, and to check if that number matches the number chosen by the 1st player. */
 
             if (player2NumberOk == true) {
-                alert (messageToPlayer[4]);
+                alert (messagesToPlayer["numbersComparison"]);
             }
 
 
@@ -106,13 +106,13 @@
 
             player2GuessedNumbers.push(playerNumberInput);
 
-        }
+}
 
 // ==== STEP 1 - 1ST PLAYER'S TURN ====================================================================================
 
     /* Asking the 1st player to enter his/her name. */
 
-    playerName = prompt(messageToPlayer[0]);
+    playerName = prompt(messagesToPlayer["welcomeEnterName"]);
 
 
     /* Assigning 1st player's name (playerName) to the FIRST index position of the array (playerID),
@@ -124,31 +124,31 @@
 
     /* Prompting 1st player to choose a number from 1 to 100, and convert that string to a number. */
 
-    playerNumberInput = +prompt (playerID[0] + messageToPlayer[1]);
+    playerNumberInput = +prompt (playerID[0] + messagesToPlayer["chooseANumber"]);
 
 
     // ===== TESTING WHETHER 1ST PLAYER'S INPUT NUMBER IS IN RANGE =====
 
-        /* Checking if 1st player's number input is in range */
+    /* Checking if 1st player's number input is in range */
 
+    player1NumberOk = isNumberInRange(1, 100, playerNumberInput);
+
+
+    /* If 1st player's number input is NOT in range, this loop will keep running until the player enters a number
+     * in range */
+
+    while (player1NumberOk !== true) {
+        alert (messagesToPlayer["errorNumberNotInRange"]);
+        playerNumberInput = +prompt (playerID[0] + messagesToPlayer["chooseANumber"]);
         player1NumberOk = isNumberInRange(1, 100, playerNumberInput);
+    }
 
+    /* If 1st player's number input is in range, the player receives a confirmation that the number he/she just
+     * chose has been stored, and that the 2nd player will now try to guess what that number is. */
 
-        /* If 1st player's number input is NOT in range, this loop will keep running until the player enters a number
-         * in range */
-
-        while (player1NumberOk !== true) {
-            alert (messageToPlayer[10]);
-            playerNumberInput = +prompt (playerID[0] + messageToPlayer[1]);
-            player1NumberOk = isNumberInRange(1, 100, playerNumberInput);
-        }
-
-        /* If 1st player's number input is in range, the player receives a confirmation that the number he/she just
-         * chose has been stored, and that the 2nd player will now try to guess what that number is. */
-
-        if (player1NumberOk == true) {
-            alert (messageToPlayer[2]);
-        }
+    if (player1NumberOk == true) {
+        alert (messagesToPlayer["secondPlayerTurn"]);
+    }
 
 
     /* Assigning 1st player's chosen number (playerNumberInput) to the FIRST index position of the
@@ -160,56 +160,55 @@
 // ==== STEP 2 - 2nd PLAYER'S TURN - ENCAPSULATING IT IN A FOR LOOP IN ORDER TO COUNT THE NUMBER OF TURNS ============
 
 
-for (counter = 1; counter <= 5; counter = counter + 1) {
+    for (counter = 1; counter <= 5; counter = counter + 1) {
 
-    if (counter == 1) {
-
-
-            // ==== SUB-STEP 2 - 2nd PLAYER'S TURN ========================================================================
-
-                /* Asking the 2nd player to enter his/her name. */
-
-                playerName = prompt(messageToPlayer[0]);
+        if (counter == 1) {
 
 
-                /* Assigning 2nd player's name (playerName) to the SECOND index position of the array (playerID) */
+            // ==== SUB-STEP 2 - 2nd PLAYER'S TURN ====================================================================
 
-                playerID[1] = playerName;
+            /* Asking the 2nd player to enter his/her name. */
+
+            playerName = prompt(messagesToPlayer["welcomeEnterName"]);
+
+            /* Assigning 2nd player's name (playerName) to the SECOND index position of the array (playerID) */
+
+            playerID[1] = playerName;
+
+            /* Initializing function (player2Turns) */
+            playPlayer2 = player2Turns();
 
 
-                /* Initializing function (player2Turns) */
-                playPlayer2 = player2Turns();
-
-
-    } else {
+        } else {
 
             // ==== STEP 3 - COMPARING THE NUMBERS CHOSEN BY THE PLAYERS ==============================================
 
 
-                // Testing whether the number guessed by the 2nd player matches the number chosen by the 1st player.
+            // Testing whether the number guessed by the 2nd player matches the number chosen by the 1st player.
 
-                if (playerChosenNumber[1] < playerChosenNumber[0]) {
-                    alert(messageToPlayer[6] + (5 - counter) + messageToPlayer[8] + player2GuessedNumbers.join("\n") + messageToPlayer[9]);
-                    playPlayer2 = player2Turns();
+            if (playerChosenNumber[1] < playerChosenNumber[0]) {
+                alert(messagesToPlayer["guessIsLower"] + (5 - counter) + messagesToPlayer["turnsLeft"] + player2GuessedNumbers.join(", ") + messagesToPlayer["tryAgain"]);
+                playPlayer2 = player2Turns();
 
+            } else if (playerChosenNumber[1] > playerChosenNumber[0]) {
+                alert(messagesToPlayer["guessIsHigher"] + (5 - counter) + messagesToPlayer["turnsLeft"] + player2GuessedNumbers.join(", ") + messagesToPlayer["tryAgain"]);
+                playPlayer2 = player2Turns();
 
-                } else if (playerChosenNumber[1] > playerChosenNumber[0]) {
-                    alert(messageToPlayer[7] + (5 - counter) + messageToPlayer[8] + player2GuessedNumbers.join("\n") + messageToPlayer[9]);
-                    playPlayer2 = player2Turns();
+            }
 
-                }
+            if (playerChosenNumber[1] === playerChosenNumber[0]) {
+                alert(messagesToPlayer["congratulationsWinner"]);
 
-        if (playerChosenNumber[1] === playerChosenNumber[0]) {
-            alert(messageToPlayer[5]);
+                /* To exit the loop if the 2nd player has the right answer*/
+                break;
 
-            /* To exit the loop if the 2nd player has the right answer*/
-            break;
+            }
 
         }
-
     }
-}
 
-/* Thanking the players and letting them know the game is over. Displaying first player's chosen number. */
+// ==== STEP 4 - END OF THE GAME ======================================================================================
 
-alert(messageToPlayer[11] + player2GuessedNumbers.join("\n") + messageToPlayer[12] + playerChosenNumber[0]);
+    /* Thanking the players and letting them know the game is over. Displaying first player's chosen number. */
+
+    alert(messagesToPlayer["gameOverThankYou"] + player2GuessedNumbers.join(", ") + messagesToPlayer["firstPlayerNumberWas"] + playerChosenNumber[0]);
